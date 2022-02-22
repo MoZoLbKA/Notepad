@@ -17,22 +17,33 @@ namespace Notepad
         public Form1()
         {
             InitializeComponent();
-            filePath = "";
-            
-            
+            filePath = "";                      
             uTF8ToolStripMenuItem.Checked = false;
             aSCIIToolStripMenuItem.Checked = false;
             win1251ToolStripMenuItem.Checked = true;
             toolStripStatusLabel1.Text = "Win-1251";
-
+            isChanged = false;
             symbols = richTextBox1.Text.Length;
 
 
-
+        }
+        public Form1(SaveForm saveForm)
+        {
+            InitializeComponent();
+            filePath = "";
+            uTF8ToolStripMenuItem.Checked = false;
+            aSCIIToolStripMenuItem.Checked = false;
+            win1251ToolStripMenuItem.Checked = true;
+            toolStripStatusLabel1.Text = "Win-1251";
+            isChanged = false;
+            symbols = richTextBox1.Text.Length;
+            
 
         }
+
         private string filePath;        
         private int symbols;
+        private bool isChanged;
        
 
         private static readonly Encoding utf = Encoding.UTF8;
@@ -42,19 +53,88 @@ namespace Notepad
 
         private void CreateDocumentClick(object sender, EventArgs e)
         {
+            SaveForm saveForm = new SaveForm(filePath);
+            if (richTextBox1.Text != "")
+            {
+                saveForm.ShowDialog();
+                if ((saveForm.Status == SaveForm.SaveStatus.Save))
+                {
+
+                    try
+                    {
+                        if (filePath != "")
+                        {
+                            richTextBox1.SaveFile(filePath);
+                        }
+                        else
+                        {
+                            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                            {
+                                filePath = saveFileDialog1.FileName;
+                                richTextBox1.SaveFile(filePath);
+                                richTextBox1.Text = "";
+                                filePath = "";
+                            }
+
+                        }
+
+
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Не удалось сохранить");
+                    }
+                }
+                else if(saveForm.Status == SaveForm.SaveStatus.NotSave)
+                {
+                    richTextBox1.Text = "";
+                    filePath = "";
+                }
+            }
             
-            Save(sender, e);           
-            richTextBox1.Text = "";           
+            
+            
+            
+            
+            
+
+
         }
         private void OpenDocumentClick(object sender,EventArgs e)
         {
+            SaveForm saveForm = new SaveForm(filePath);
+            
+            if(richTextBox1.Text != "")
+            {
+                saveForm.ShowDialog();
+                if ((saveForm.Status == SaveForm.SaveStatus.Save))
+                {
+                    Save(sender, e);
+                    ShowOpenDocDial(sender, e);
 
+                }
+                else if (saveForm.Status == SaveForm.SaveStatus.NotSave)
+                {
+                    ShowOpenDocDial(sender, e);
+                }
+            }
+            else
+            {
+                ShowOpenDocDial(sender, e);
+                
+            }
+            
+            
+            
+        }
+        private void ShowOpenDocDial(object sender,EventArgs e)
+        {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-
-                    richTextBox1.LoadFile(openFileDialog1.FileName);
+                    filePath = openFileDialog1.FileName;
+                    richTextBox1.LoadFile(filePath);
 
 
                 }
@@ -69,7 +149,8 @@ namespace Notepad
                 }
                 finally
                 {
-                    Update(sender,e);
+
+                    Update(sender, e);
                 }
             }
         }
@@ -81,12 +162,15 @@ namespace Notepad
                 {
                     filePath = saveFileDialog1.FileName;
                     richTextBox1.SaveFile(filePath);
+                    
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Не удалось сохранить");
                 }
+                
             }
+            
         }
         private void Save(object sender,EventArgs e)
         {
@@ -107,11 +191,14 @@ namespace Notepad
                     }
                     
                 }
+               
+
             }
             catch (Exception)
             {
                 MessageBox.Show("Не удалось сохранить");
             }
+            
             
         }
         private void Print(object sender,EventArgs e)
@@ -128,32 +215,38 @@ namespace Notepad
         }
         private void Close(object sender,EventArgs e)
         {
-            if (richTextBox1.Text != "")
+            SaveForm saveForm = new SaveForm(filePath);
+            saveForm.ShowDialog();
+
+            if ((saveForm.Status == SaveForm.SaveStatus.Save) && richTextBox1.Text != "")
             {
                 Save(sender, e);
                 Close();
             }
-            Close();                 
+            else if(saveForm.Status == SaveForm.SaveStatus.NotSave)
+            {
+                Close(); 
+            }
+            
+            
+                            
         }
         private void UpView(object sender,EventArgs e)
         {
-            Font font = new Font(richTextBox1.Font.Name, richTextBox1.Font.Size+4);
-            richTextBox1.Font = font;
+            
+            richTextBox1.ZoomFactor+=2;
         }
         private void DownView(object sender, EventArgs e)
         {
-            if (richTextBox1.Font.Size >= 8)
+            if (richTextBox1.ZoomFactor >= 2.5)
             {
-                Font font = new Font(richTextBox1.Font.Name, richTextBox1.Font.Size - 4);
-                richTextBox1.Font = font;
+                richTextBox1.ZoomFactor -= 2;
             }
+                     
         }
         private void MakeDefaultView(object sender, EventArgs e)
         {
-                
-                Font font = new Font(richTextBox1.Font.Name,DefaultFont.Size);
-                richTextBox1.Font = font;
-            
+            richTextBox1.ZoomFactor = 1;
         }
 
         private void ShowInfo(object sender,EventArgs e)
@@ -197,8 +290,6 @@ namespace Notepad
                 aSCIIToolStripMenuItem.Checked = true;
                 win1251ToolStripMenuItem.Checked = false;
                 toolStripStatusLabel1.Text = "ASCII";
-
-
             }
 
         }
@@ -212,8 +303,6 @@ namespace Notepad
                 aSCIIToolStripMenuItem.Checked = false;
                 win1251ToolStripMenuItem.Checked = true;
                 toolStripStatusLabel1.Text = "Win-1251";
-
-
             }
 
         }
@@ -228,25 +317,41 @@ namespace Notepad
             else
             {
                 statusStrip1.Visible = true;
-                richTextBox1.Dock = DockStyle.Fill;                                                               
+                richTextBox1.Dock = DockStyle.Fill;                                                            
                 statusBarToolStripMenuItem.Checked = true;
             }
         }
         private void ChangeSymbols(object sender,EventArgs e)
         {
             symbols++;
+            isChanged = true;
             Update(sender, e);
 
         }
         private void LoadForm(object sender,EventArgs e)
         {
             Update(sender, e);
+            if (Clipboard.ContainsText())
+            {
+                pasteToolStripMenuItem.Enabled = true;
+            }
         }
         private void Update(object sender, EventArgs e)
         {
             symbols = richTextBox1.Text.Length;
             toolStripStatusLabel2.Text = $"Кол-во символов: {symbols}";
         }
+        private void Paste(object sender,EventArgs e)
+        {
+            richTextBox1.Text += Clipboard.GetText();
+            richTextBox1.SelectionStart=richTextBox1.Text.Length;
+        }
+        private void Copy(object sender,EventArgs e)
+        {
+
+        }
+        
+        
 
 
 
