@@ -168,15 +168,19 @@ namespace Notepad
             // 
             // cutToolStripMenuItem
             // 
+            this.cutToolStripMenuItem.Enabled = false;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cutToolStripMenuItem.Text = "Вырезать";
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
             // 
             // copyToolStripMenuItem
             // 
+            this.copyToolStripMenuItem.Enabled = false;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.copyToolStripMenuItem.Text = "Копировать";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
             // 
             // pasteToolStripMenuItem
             // 
@@ -188,9 +192,11 @@ namespace Notepad
             // 
             // deleteToolStripMenuItem
             // 
+            this.deleteToolStripMenuItem.Enabled = false;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.deleteToolStripMenuItem.Text = "Удалить";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete);
             // 
             // findToolStripMenuItem
             // 
@@ -382,6 +388,7 @@ namespace Notepad
             this.richTextBox1.Size = new System.Drawing.Size(796, 427);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
+            this.richTextBox1.SelectionChanged += new System.EventHandler(this.SelectText);
             this.richTextBox1.TextChanged += new System.EventHandler(this.ChangeSymbols);
             // 
             // Form1

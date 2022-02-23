@@ -347,11 +347,41 @@ namespace Notepad
             richTextBox1.SelectionStart=richTextBox1.Text.Length;
         }
         private void Copy(object sender,EventArgs e)
-        {
-
+        {            
+            Clipboard.SetText(richTextBox1.SelectedText);
         }
-        
-        
+        private void SelectText(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectionLength > 0)
+            {
+                copyToolStripMenuItem.Enabled = true;
+                cutToolStripMenuItem.Enabled = true;
+                deleteToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                copyToolStripMenuItem.Enabled = false;
+                cutToolStripMenuItem.Enabled = false;
+                deleteToolStripMenuItem.Enabled = false;
+            }
+            
+        }
+        private void Cut(object sender,EventArgs e)
+        {
+            Copy(sender, e);
+            Delete(sender, e);
+        }
+        private void Delete(object sender, EventArgs e)
+        {
+            
+            int StartPosDel = richTextBox1.SelectionStart;
+            int LenSelection = richTextBox1.SelectionLength;
+            richTextBox1.Text = richTextBox1.Text.Remove(StartPosDel, LenSelection);
+        }
+
+
+
+
 
 
 
