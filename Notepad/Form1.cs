@@ -8,7 +8,7 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 
 namespace Notepad
 {
@@ -19,6 +19,8 @@ namespace Notepad
             InitializeComponent();
             filePath = "";                      
             uTF8ToolStripMenuItem.Checked = false;
+            mainColor = Color.DarkTurquoise;
+            secondColor = Color.White;
             aSCIIToolStripMenuItem.Checked = false;
             win1251ToolStripMenuItem.Checked = true;
             toolStripStatusLabel1.Text = "Win-1251";
@@ -40,11 +42,14 @@ namespace Notepad
             
 
         }
-
+        static public Color mainColor;
+        static public Color secondColor;
+        static public Color fontColor;
         private string filePath;        
         private int symbols;
         private bool isChanged;
-       
+        private Stack<string> undoList = new Stack<string>();
+
 
         private static readonly Encoding utf = Encoding.UTF8;
         private static readonly Encoding ascii = Encoding.ASCII;
@@ -324,6 +329,7 @@ namespace Notepad
         private void ChangeSymbols(object sender,EventArgs e)
         {
             symbols++;
+            undoList.Push(richTextBox1.Text);
             isChanged = true;
             Update(sender, e);
 
@@ -331,6 +337,7 @@ namespace Notepad
         private void LoadForm(object sender,EventArgs e)
         {
             Update(sender, e);
+
             if (Clipboard.ContainsText())
             {
                 pasteToolStripMenuItem.Enabled = true;
@@ -340,16 +347,29 @@ namespace Notepad
         {
             symbols = richTextBox1.Text.Length;
             toolStripStatusLabel2.Text = $"Кол-во символов: {symbols}";
+            menuStrip1.BackColor = mainColor;
+            
+            /*richTextBox1.BackColor = secondColor;
+            statusStrip1.BackColor = secondColor;
+            menuStrip1.ForeColor = fontColor;
+            menuStrip1.BackColor = mainColor;
+            statusStrip1.BackColor = secondColor;
+            statusStrip1.ForeColor = fontColor;*/
         }
         private void Paste(object sender,EventArgs e)
         {
-            richTextBox1.Text += Clipboard.GetText();
-            richTextBox1.SelectionStart=richTextBox1.Text.Length;
+            richTextBox1.Paste();
+            
         }
         private void Copy(object sender,EventArgs e)
         {            
             Clipboard.SetText(richTextBox1.SelectedText);
         }
+        /// <summary>
+        /// Включение и отключение кнопок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectText(object sender, EventArgs e)
         {
             if (richTextBox1.SelectionLength > 0)
@@ -357,19 +377,20 @@ namespace Notepad
                 copyToolStripMenuItem.Enabled = true;
                 cutToolStripMenuItem.Enabled = true;
                 deleteToolStripMenuItem.Enabled = true;
+                findInGoogleToolStripMenuItem.Enabled = true;
             }
             else
             {
                 copyToolStripMenuItem.Enabled = false;
                 cutToolStripMenuItem.Enabled = false;
                 deleteToolStripMenuItem.Enabled = false;
+                findInGoogleToolStripMenuItem.Enabled = false;
             }
             
         }
         private void Cut(object sender,EventArgs e)
         {
-            Copy(sender, e);
-            Delete(sender, e);
+            richTextBox1.Cut();
         }
         private void Delete(object sender, EventArgs e)
         {
@@ -399,6 +420,51 @@ namespace Notepad
             }
 
         }
+        private void Cancel(object sender,EventArgs e)
+        {
+            richTextBox1.Undo();
+        }
+        private void KeyDownForTextBox(object sender, KeyEventArgs e)
+        {                    
+            if (e.KeyCode == Keys.Space)
+            {
+                SuspendLayout();
+                richTextBox1.Undo();
+                richTextBox1.Redo();
+                ResumeLayout();
+            }
+            
+        }
+        private void SearchInGoogle(object sender,EventArgs e)
+        {
+            if (findInGoogleToolStripMenuItem.Enabled)
+            {              
+                Process.Start($"https://www.google.com/search?q= {richTextBox1.SelectedText}");           
+            }
+        }
+        private void ChangeThemeToDefault(object sender,EventArgs e)
+        {
+            mainColor =Color.DarkTurquoise;
+            secondColor = Color.White;
+            fontColor = Color.Black;
+            Update(sender, e);
+            
+        }
+        private void ChangeThemeToForest(object sender, EventArgs e)
+        {
+            mainColor = Color.LightGreen;
+            secondColor = Color.White;
+            fontColor = Color.Black;
+            Update(sender, e);
+        }
+       
+        /* private void ChangeToDarkTheme(object sender,EventArgs e)
+        {
+            mainColor = Color.Black;
+            secondColor = Color.White;
+            Update(sender, e);
+
+        }*/
 
     }
 }

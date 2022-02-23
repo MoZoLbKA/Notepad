@@ -70,6 +70,10 @@ namespace Notepad
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.findInGoogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.темаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.голубаяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.зеленаяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -164,14 +168,15 @@ namespace Notepad
             // cancelToolStripMenuItem
             // 
             this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
-            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cancelToolStripMenuItem.Text = "Отменить";
+            this.cancelToolStripMenuItem.Click += new System.EventHandler(this.Cancel);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Enabled = false;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cutToolStripMenuItem.Text = "Вырезать";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
             // 
@@ -179,7 +184,7 @@ namespace Notepad
             // 
             this.copyToolStripMenuItem.Enabled = false;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.copyToolStripMenuItem.Text = "Копировать";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
             // 
@@ -187,7 +192,7 @@ namespace Notepad
             // 
             this.pasteToolStripMenuItem.Enabled = false;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.pasteToolStripMenuItem.Text = "Вставить";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
             // 
@@ -195,14 +200,16 @@ namespace Notepad
             // 
             this.deleteToolStripMenuItem.Enabled = false;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.deleteToolStripMenuItem.Text = "Удалить";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete);
             // 
             // findToolStripMenuItem
             // 
+            this.findToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findInGoogleToolStripMenuItem});
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.findToolStripMenuItem.Text = "Найти...";
             // 
             // formatToolStripMenuItem
@@ -235,7 +242,8 @@ namespace Notepad
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scaleToolStripMenuItem,
-            this.statusBarToolStripMenuItem});
+            this.statusBarToolStripMenuItem,
+            this.темаToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.viewToolStripMenuItem.Text = "Вид";
@@ -247,7 +255,7 @@ namespace Notepad
             this.downViewToolStripMenuItem,
             this.makeDefaultToolStripMenuItem});
             this.scaleToolStripMenuItem.Name = "scaleToolStripMenuItem";
-            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.scaleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.scaleToolStripMenuItem.Text = "Масштаб";
             // 
             // upViewToolStripMenuItem
@@ -277,7 +285,7 @@ namespace Notepad
             this.statusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.statusBarToolStripMenuItem.Name = "statusBarToolStripMenuItem";
             this.statusBarToolStripMenuItem.ShowShortcutKeys = false;
-            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.statusBarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.statusBarToolStripMenuItem.Text = "Строка состояния";
             this.statusBarToolStripMenuItem.Click += new System.EventHandler(this.ChangeToolBar);
             // 
@@ -337,7 +345,7 @@ namespace Notepad
             // aboutProgramToolStripMenuItem
             // 
             this.aboutProgramToolStripMenuItem.Name = "aboutProgramToolStripMenuItem";
-            this.aboutProgramToolStripMenuItem.Size = new System.Drawing.Size(187, 26);
+            this.aboutProgramToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.aboutProgramToolStripMenuItem.Text = "О программе";
             this.aboutProgramToolStripMenuItem.Click += new System.EventHandler(this.ShowInfo);
             // 
@@ -382,6 +390,7 @@ namespace Notepad
             // richTextBox1
             // 
             this.richTextBox1.AutoWordSelection = true;
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 28);
@@ -391,6 +400,38 @@ namespace Notepad
             this.richTextBox1.Text = "";
             this.richTextBox1.SelectionChanged += new System.EventHandler(this.SelectText);
             this.richTextBox1.TextChanged += new System.EventHandler(this.ChangeSymbols);
+            this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownForTextBox);
+            // 
+            // findInGoogleToolStripMenuItem
+            // 
+            this.findInGoogleToolStripMenuItem.Enabled = false;
+            this.findInGoogleToolStripMenuItem.Name = "findInGoogleToolStripMenuItem";
+            this.findInGoogleToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
+            this.findInGoogleToolStripMenuItem.Text = "Найти с помощью Google";
+            this.findInGoogleToolStripMenuItem.Click += new System.EventHandler(this.SearchInGoogle);
+            // 
+            // темаToolStripMenuItem
+            // 
+            this.темаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.голубаяToolStripMenuItem,
+            this.зеленаяToolStripMenuItem});
+            this.темаToolStripMenuItem.Name = "темаToolStripMenuItem";
+            this.темаToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.темаToolStripMenuItem.Text = "Тема";
+            // 
+            // голубаяToolStripMenuItem
+            // 
+            this.голубаяToolStripMenuItem.Name = "голубаяToolStripMenuItem";
+            this.голубаяToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.голубаяToolStripMenuItem.Text = "Голубая";
+            this.голубаяToolStripMenuItem.Click += new System.EventHandler(this.ChangeThemeToDefault);
+            // 
+            // зеленаяToolStripMenuItem
+            // 
+            this.зеленаяToolStripMenuItem.Name = "зеленаяToolStripMenuItem";
+            this.зеленаяToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.зеленаяToolStripMenuItem.Text = "Зеленая";
+            this.зеленаяToolStripMenuItem.Click += new System.EventHandler(this.ChangeThemeToForest);
             // 
             // Form1
             // 
@@ -457,6 +498,10 @@ namespace Notepad
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ToolStripMenuItem win1251ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem findInGoogleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem темаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem голубаяToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem зеленаяToolStripMenuItem;
     }
 }
 
