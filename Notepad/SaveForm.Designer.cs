@@ -92,8 +92,7 @@ namespace Notepad
             // 
             // SaveForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(382, 217);
@@ -106,9 +105,9 @@ namespace Notepad
             this.MaximumSize = new System.Drawing.Size(400, 264);
             this.MinimumSize = new System.Drawing.Size(400, 264);
             this.Name = "SaveForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сохранить?";
-            this.Leave += new System.EventHandler(this.Cansel);
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -379,6 +379,26 @@ namespace Notepad
             richTextBox1.Text = richTextBox1.Text.Remove(StartPosDel, LenSelection);
         }
 
-        
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveForm saveForm = new SaveForm(filePath);
+            saveForm.ShowDialog();
+
+            if ((saveForm.Status == SaveForm.SaveStatus.Save) && richTextBox1.Text != "")
+            {
+                Save(sender, e);               
+                e.Cancel = false;
+            }
+            else if (saveForm.Status == SaveForm.SaveStatus.NotSave)
+            {
+                e.Cancel = false;             
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
+
     }
 }

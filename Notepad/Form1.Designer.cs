@@ -16,6 +16,7 @@ namespace Notepad
         {
             if (disposing && (components != null))
             {
+                
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -404,10 +405,8 @@ namespace Notepad
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Notepad";
-            this.Deactivate += new System.EventHandler(this.Close);
-            
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.LoadForm);
-            this.Leave += new System.EventHandler(this.Close);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
