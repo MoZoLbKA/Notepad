@@ -379,11 +379,6 @@ namespace Notepad
             richTextBox1.Text = richTextBox1.Text.Remove(StartPosDel, LenSelection);
         }
 
-
-
-
-
-
-
+        
     }
 }

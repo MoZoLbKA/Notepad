@@ -163,14 +163,14 @@ namespace Notepad
             // cancelToolStripMenuItem
             // 
             this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
-            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.cancelToolStripMenuItem.Text = "Отменить";
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Enabled = false;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.cutToolStripMenuItem.Text = "Вырезать";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.Cut);
             // 
@@ -178,7 +178,7 @@ namespace Notepad
             // 
             this.copyToolStripMenuItem.Enabled = false;
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.copyToolStripMenuItem.Text = "Копировать";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.Copy);
             // 
@@ -186,7 +186,7 @@ namespace Notepad
             // 
             this.pasteToolStripMenuItem.Enabled = false;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.pasteToolStripMenuItem.Text = "Вставить";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.Paste);
             // 
@@ -194,14 +194,14 @@ namespace Notepad
             // 
             this.deleteToolStripMenuItem.Enabled = false;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.deleteToolStripMenuItem.Text = "Удалить";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.findToolStripMenuItem.Text = "Найти...";
             // 
             // formatToolStripMenuItem
@@ -303,7 +303,7 @@ namespace Notepad
             this.uTF8ToolStripMenuItem.Checked = true;
             this.uTF8ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
             this.uTF8ToolStripMenuItem.Text = "UTF-8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.ChangeCoddingToUtf);
             // 
@@ -312,7 +312,7 @@ namespace Notepad
             this.aSCIIToolStripMenuItem.Checked = true;
             this.aSCIIToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.aSCIIToolStripMenuItem.Name = "aSCIIToolStripMenuItem";
-            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aSCIIToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
             this.aSCIIToolStripMenuItem.Text = "ASCII";
             this.aSCIIToolStripMenuItem.Click += new System.EventHandler(this.ChangeCoddingToAscii);
             // 
@@ -321,7 +321,7 @@ namespace Notepad
             this.win1251ToolStripMenuItem.Checked = true;
             this.win1251ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.win1251ToolStripMenuItem.Name = "win1251ToolStripMenuItem";
-            this.win1251ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.win1251ToolStripMenuItem.Size = new System.Drawing.Size(156, 26);
             this.win1251ToolStripMenuItem.Text = "Win-1251";
             this.win1251ToolStripMenuItem.Click += new System.EventHandler(this.ChangeCoddingToWin1251);
             // 
@@ -404,7 +404,10 @@ namespace Notepad
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Notepad";
+            this.Deactivate += new System.EventHandler(this.Close);
+            
             this.Load += new System.EventHandler(this.LoadForm);
+            this.Leave += new System.EventHandler(this.Close);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
